@@ -1,7 +1,7 @@
 import { Request, Response} from 'express'
 import Task  from '../models/task.ts';
 
-class Usercontroller {
+class TaskController {
 
     static async getTasks(req: Request, res: Response) {
         try {
@@ -75,4 +75,4 @@ class Usercontroller {
     }
 }
 
-export default Usercontroller;
+export default TaskController;

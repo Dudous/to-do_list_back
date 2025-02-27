@@ -1,17 +1,17 @@
 import express, { Router } from 'express';
-import Usercontroller from '../controllers/UserController.ts';
+import TaskController from '../controllers/TaskController.ts';
 
 const router: Router = express.Router();
 
 router
-    .get('/', Usercontroller.getTasks)
+    .get('/', TaskController.getTasks)
 
-    .post('/', Usercontroller.newTask)
+    .post('/', TaskController.newTask)
 
-    .put('/:id', Usercontroller.putTask)
+    .put('/:id', TaskController.putTask)
 
-    .patch('/:id', Usercontroller.patchTask)
+    .patch('/:id', TaskController.patchTask)
 
-    .delete('/:id', Usercontroller.deleteTask)
+    .delete('/:id', TaskController.deleteTask)
 
 export default router;

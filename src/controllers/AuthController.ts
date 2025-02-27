@@ -7,15 +7,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 class AuthController {
-    static async register(req: Request, res: Response) {
+    static async register(req: Request, res: Response) : Promise<any> {
         const { name, email, password } = req.body;
 
-        const passwordCrypt = CryptoTS.AES.encrypt(password, process.env.SECRET as string).toString();
+        // const passwordCrypt = CryptoTS.AES.encrypt(password, process.env.SECRET as string).toString();
 
         const user = new User({
             name,
             email,
-            password: passwordCrypt,
+            password
+            // password: passwordCrypt,
         });
         
         try {
@@ -26,18 +27,21 @@ class AuthController {
         }
     }
 
-    static async login(req: Request, res: Response) {
+    static async login(req: Request, res: Response) : Promise<any> {
         const { email, password } = req.body;
         const user = await User.findOne({ email });
         
         if(!user)
             return res.status(400).send({ message: "Invalid Email" });
 
-        const decryptedIn = CryptoTS.AES.decrypt(user.password, process.env.SECRET as string).toString(CryptoTS.enc.Utf8);
+        // const decryptedIn = CryptoTS.AES.decrypt(user.password, process.env.SECRET as string).toString(CryptoTS.enc.Utf8);
 
-        if(!(password == decryptedIn)){
+        // if(!(password == decryptedIn)){
+        //     return res.status(400).send({ message: "Invalid Email or password" });
+        // }
+
+        if(!(password == user.password))
             return res.status(400).send({ message: "Invalid Email or password" });
-        }
 
         const secret = process.env.SECRET;
         const token = jwt.sign(
@@ -49,7 +53,7 @@ class AuthController {
                 expiresIn: "2 days"
             }
         );
-        res.status(200).send({ token: token })
+        return res.status(200).send({ token: token });
     }
 }
 
